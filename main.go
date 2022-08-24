@@ -2,22 +2,24 @@ package main
 
 import (
 	"fmt"
-	
 )
 
 func main() {
 
-	name1 := "fadli"
-	name2 := "anton"
+	name1 := []string{"anton", "putra", "david", "rafi", "fadli", "putri"}
 
-	friends :=[]*string{&name1, &name2}
+	var friends []*string
 
-	print := func(friends []*string){
+	for i := 0; i < len(name1); i++ {
+		friends = append(friends, &name1[i])
+	}
+
+	print := func(friends []*string) {
 		for _, fullNames := range friends {
 			fmt.Println(*fullNames)
 		}
-		
+
 	}
-	
+
 	print(friends)
 }

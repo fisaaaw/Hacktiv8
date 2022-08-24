@@ -4,19 +4,25 @@ import (
 	"fmt"
 )
 
-func main() {
+type namaTemen struct {
+	name string
+}
 
+func main() {
+	var friends []*namaTemen
 	name1 := []string{"anton", "putra", "david", "rafi", "fadli", "putri"}
 
-	var friends []*string
+	for _, a := range name1 {
+			v := namaTemen{
+			name: a,
+			}
+			friends = append(friends, &v)
 
-	for i := 0; i < len(name1); i++ {
-		friends = append(friends, &name1[i])
 	}
 
-	print := func(friends []*string) {
+	print := func(friends []*namaTemen) {
 		for _, fullNames := range friends {
-			fmt.Println(*fullNames)
+			fmt.Println(*&fullNames.name)
 		}
 
 	}

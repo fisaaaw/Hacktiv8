@@ -1,20 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	
+)
 
 func main() {
-	fmt.Println("hello world")
 
-	for i := 0; i <=10; i++ {
-		if i % 2 == 1 {
-			fmt.Println(i, "ganjil")
-		} else {
-			fmt.Println(i, "genap")
+	name1 := "fadli"
+	name2 := "anton"
+
+	friends :=[]*string{&name1, &name2}
+
+	print := func(friends []*string){
+		for _, fullNames := range friends {
+			fmt.Println(*fullNames)
 		}
+		
 	}
-
-	name := []string{"teguh", "fadli", "rafi", "david", "fajar", "san", "kadek", "stevanus", "iqbal", "kevin"}
-	for _, a := range name {
-	fmt.Println(a)
-	}
+	
+	print(friends)
 }

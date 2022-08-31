@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type Person struct {
 	name string
@@ -35,16 +38,23 @@ func main() {
 
 	personSrvc := NewPersonService(db)
 
-	resRegister := personSrvc.Register(&Person{name: "nama1"})
-	fmt.Println(resRegister)
-
-	resRegister = personSrvc.Register(&Person{name: "nama2"})
-	fmt.Println(resRegister)
+	names := []string{"putra", "aji", "fika", "rizky"}
+	var wg sync.WaitGroup
+	wg.Add(len(names))
+	for _, v := range names {
+		go func (name string)  {
+				res := personSrvc.Register(&Person{name: name})
+				fmt.Println(res)
+				wg.Done()
+		}(v)
+		
+	}
+	wg.Wait()
 
 	resGetUser := personSrvc.GetUser()
 
-	fmt.Println("-------Hasil get user-----")
-	for _, v :=range resGetUser {
-		fmt.Println(v.name)
+	fmt.Println("-----Hasil Get User-----")
+	for _, n := range resGetUser {
+		fmt.Println(n.name)
 	}
 }

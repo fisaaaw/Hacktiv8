@@ -1,0 +1,197 @@
+definitions:
+  model.Person:
+    properties:
+      firstName:
+        description: |-
+          gorm.Model
+          Post FirstName
+          @Column(type:string)
+        type: string
+      lastName:
+        description: |-
+          Post LasttName
+          @Column(type:string)
+        type: string
+    type: object
+  request.CreatePersonRequest:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    required:
+    - first_name
+    type: object
+  request.UpdatePersonRequest:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  response.CreatePersonResponse:
+    properties:
+      http_code:
+        type: integer
+      payload:
+        $ref: '#/definitions/model.Person'
+    type: object
+  response.DeletePersonResponse:
+    properties:
+      http_code:
+        type: integer
+      payload:
+        type: string
+    type: object
+  response.GetAllPersonsResponse:
+    properties:
+      http_code:
+        type: integer
+      payload:
+        items:
+          $ref: '#/definitions/model.Person'
+        type: array
+    type: object
+  response.GetOnePersonResponse:
+    properties:
+      http_code:
+        type: integer
+      payload:
+        $ref: '#/definitions/model.Person'
+    type: object
+  response.UpdatePersonResponse:
+    properties:
+      http_code:
+        type: integer
+      payload:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/person:
+    get:
+      consumes:
+      - '*/*'
+      description: Mendapatkan semua orang yang telah terdaftar
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetAllPersonsResponse'
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Mendapatkan semua orang yang telah terdaftar
+      tags:
+      - Person
+    post:
+      consumes:
+      - '*/*'
+      description: Mendaftarkan/membuat satu orang
+      parameters:
+      - description: Person
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreatePersonRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CreatePersonResponse'
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Mendaftarkan/membuat satu orang
+      tags:
+      - Person
+  /v1/person/{id}:
+    delete:
+      consumes:
+      - '*/*'
+      description: Menghapus user yang sudah dibuat berdasarkan id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.DeletePersonResponse'
+        "400":
+          description: error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Menghapus user yang sudah dibuat berdasarkan id
+      tags:
+      - Person
+    get:
+      consumes:
+      - '*/*'
+      description: Mendapatkan satu orang yang telah terdaftar dengan id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetOnePersonResponse'
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Mendapatkan satu orang yang telah terdaftar dengan id
+      tags:
+      - Person
+    put:
+      consumes:
+      - '*/*'
+      description: Mengupdate satu orang yang sudah terbuat
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Person
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdatePersonRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UpdatePersonResponse'
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Mengupdate satu orang yang sudah terbuat
+      tags:
+      - Person
+swagger: "2.0"
